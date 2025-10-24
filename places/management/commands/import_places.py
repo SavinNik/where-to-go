@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 
 class Command(BaseCommand):
-    help = 'Import places data from JSON files'
+    help = 'Загружает данные из JSON файлов в базу данных'
 
     def add_arguments(self, parser):
         parser.add_argument('directory', type=str, help='Path to directory containing JSON files')
@@ -20,6 +20,7 @@ class Command(BaseCommand):
 
 
 def import_test_data_to_db(directory):
+    """Загружает тестовые данные из JSON файлов в базу данных"""
     for filename in os.listdir(directory):
         if filename.endswith('.json'):
             file_path = os.path.join(directory, filename)
@@ -27,13 +28,18 @@ def import_test_data_to_db(directory):
                 with open(file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
 
-                    place, created = Place.objects.get_or_create(
+                    place, created = Place.objects.update_or_create(
                         title=data['title'],
-                        description_short=data['description_short'],
-                        description_long=data['description_long'],
-                        coordinates_lat=data['coordinates']['lat'],
-                        coordinates_lng=data['coordinates']['lng'],
+                        defaults={
+                            'description_short': data['description_short'],
+                            'description_long': data['description_long'],
+                            'coordinates_lat': data['coordinates']['lat'],
+                            'coordinates_lng': data['coordinates']['lng']
+                        }
                     )
+
+                    place.images.all().delete()
+
 
                     for i, url in enumerate(data['imgs'], start=1):
                         try:

@@ -37,40 +37,10 @@
       width: 100px;
     }
   </style>
-  <script id="places-geojson" type="application/json">
-    {
-      "type": "FeatureCollection",
-      "features": [
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.62, 55.793676]
-          },
-          "properties": {
-            "title": "«Легенды Москвы",
-            "placeId": "moscow_legends",
-            "detailsUrl": "/static/moscow_legends.json"
-          }
-        },
-        {
-          "type": "Feature",
-          "geometry": {
-            "type": "Point",
-            "coordinates": [37.64, 55.753676]
-          },
-          "properties": {
-            "title": "Крыши24.рф",
-            "placeId": "roofs24",
-            "detailsUrl": "/static/roofs24.json"
-          }
-        }
-      ]
-    }
-  </script>
+
+  {{ context|json_script:"places-geojson" }}
 
   <script id="app-template" type="text/template">
-    {% verbatim %}
     <div v-bind:class="{'sidebar-content': 1, 'bg-white': selectedPlace, 'bg-secondary': !selectedPlace}">
       <div v-if="promptVisible" class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
         <img class="d-block select-place-prompt mb-4" src="/static/hand-pointer-regular.svg" alt="Select place">
@@ -85,10 +55,10 @@
 
       <div class="place-description" v-if="selectedPlace">
         <img v-if="mainPhotoSrc" v-bind:src="mainPhotoSrc" class="d-block shadow mb-3 rounded" v-bind:alt="selectedPlace.title">
-
+        {% verbatim %}
         <h5 class="mb-3">{{ selectedPlace.title }}</h5>
         <p>{{ selectedPlace.short_description }}</p>
-
+        {% endverbatim %}
         <div id="place-photos" class="carousel slide mb-3 shadow" data-ride="carousel" data-interval="5000">
           <ol class="carousel-indicators">
             <template v-for="(img, index) in carouselImgs" :key="img">
@@ -117,7 +87,6 @@
         <div v-html="selectedPlace.long_description"></div>
       </div>
     </div>
-    {% endverbatim %}
   </script>
 
 </head>
@@ -192,7 +161,7 @@
 
 
     L.geoJSON(places, {
-        pointToLayer: function(geoJsonPoint, latlng) {
+        pointToLayer: function(geoJsonPoint, latlng){
           if (geoJsonPoint.geometry.type != "Point"){
             return
           }
