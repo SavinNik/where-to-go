@@ -16,10 +16,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         directory = options['directory']
-        import_test_data_to_db(directory)
+        import_data_to_db(directory)
 
 
-def import_test_data_to_db(directory):
+def import_data_to_db(directory):
     """Загружает тестовые данные из JSON файлов в базу данных"""
     for filename in os.listdir(directory):
         if filename.endswith('.json'):
