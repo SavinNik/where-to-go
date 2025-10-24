@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'places',
     'adminsortable2',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+TINYMCE_DEFAULT_CONFIG = {
+    "height": "300px",
+    "width": "90%",
+    "menubar": False,
+    "toolbar": "undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image | removeformat",
+    "plugins": "link image list",
+    "content_style": "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+}

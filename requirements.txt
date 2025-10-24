@@ -14,7 +14,10 @@ django==5.2.7
     # via
     #   -r requirements.in
     #   django-admin-sortable2
+    #   django-tinymce
 django-admin-sortable2==2.2.8
+    # via -r requirements.in
+django-tinymce==5.0.0
     # via -r requirements.in
 idna==3.11
     # via requests
