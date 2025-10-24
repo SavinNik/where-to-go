@@ -11,6 +11,10 @@ certifi==2025.10.5
 charset-normalizer==3.4.4
     # via requests
 django==5.2.7
+    # via
+    #   -r requirements.in
+    #   django-admin-sortable2
+django-admin-sortable2==2.2.8
     # via -r requirements.in
 idna==3.11
     # via requests

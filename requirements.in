@@ -2,3 +2,4 @@ django
 requests
 psycopg2-binary
 Pillow
+django-admin-sortable2

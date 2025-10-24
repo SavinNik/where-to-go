@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 class Place(models.Model):
@@ -21,9 +22,16 @@ class PlaceImage(models.Model):
     image = models.ImageField(upload_to='place_images' ,verbose_name='Изображение', db_index=True)
     position = models.PositiveIntegerField(default=0, db_index=True, verbose_name='Позиция')
 
+    def __str__(self):
+        return f'{self.title} - {self.position}'
+
     class Meta:
         ordering = ['position']
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
 
+    def image_tag(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" style="max-width: 200px; max-height: 200px;" />')
+        return 'Изображение отсутствует'
 
